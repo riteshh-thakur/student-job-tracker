@@ -32,7 +32,7 @@ Router.get("/view-all-user", verifyToken, ViewAllUser);
 //attendees route
 Router.get("/attendee", verifyToken, getAllAttendees);
 Router.post("/attendee", verifyToken, addAttendee);
-Router.delete("/attendee", verifyToken, deleteAttendee);
+Router.delete("/attendee/:attendeeId", verifyToken, deleteAttendee);
 Router.post("/attendee/assignEvent", verifyToken, assignAttendeeToEvent);
 
 //event routes

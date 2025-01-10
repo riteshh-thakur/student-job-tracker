@@ -11,81 +11,7 @@ import axios from "axios";
 
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import AddAttendee from "@/components/addAttendee";
-
-const data = [
-  {
-    id: 1,
-    medicineName: "Paracetamol 500mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 50",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    medicineName: "Ibuprofen 400mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 70",
-    status: "Cancelled",
-  },
-  {
-    id: 3,
-    medicineName: "Amoxicillin 250mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 120",
-    status: "Completed",
-  },
-  {
-    id: 4,
-    medicineName: "Ciprofloxacin 500mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 90",
-    status: "Pending",
-  },
-  {
-    id: 5,
-    medicineName: "Cetirizine 10mg",
-    available: false,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 25",
-    status: "Cancelled",
-  },
-  {
-    id: 6,
-    medicineName: "Metformin 500mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 150",
-    status: "Completed",
-  },
-  {
-    id: 7,
-    medicineName: "Losartan 50mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 80",
-    status: "Pending",
-  },
-  {
-    id: 8,
-    medicineName: "Atorvastatin 10mg",
-    available: false,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 100",
-    status: "Cancelled",
-  },
-  {
-    id: 9,
-    medicineName: "Azithromycin 500mg",
-    available: true,
-    date: "23 Jan 2019, 10:45pm",
-    price: "₹ 200",
-    status: "Completed",
-  },
-];
+import { ColorRing } from "react-loader-spinner";
 
 const StatusBadge = ({ status }) => {
   const statusClasses = {
@@ -101,29 +27,6 @@ const StatusBadge = ({ status }) => {
       }`}
     >
       {status}
-    </div>
-  );
-};
-
-const ActionButtons = () => {
-  const navigate = useNavigate();
-  return (
-    <div className="flex gap-2 items-center py-3">
-      <div
-        onClick={() => navigate("/dashboard/billing")}
-        className="cursor-pointer p-3 bg-[#dce4f9] text-[#2563eb] rounded-full"
-      >
-        <FiEye size={18} />
-      </div>
-      <div
-        onClick={() => navigate("/dashboard/billing")}
-        className="cursor-pointer p-3 bg-[#e3f4e9] text-[#16a34a] rounded-full"
-      >
-        <FaRegEdit size={18} />
-      </div>
-      <div className="cursor-pointer p-3 bg-[#fde4ea] text-[#dc2626] rounded-full">
-        <Trash2 size={18} />
-      </div>
     </div>
   );
 };
@@ -174,8 +77,15 @@ const AttendantList = () => {
   const [attendants, setAttendants] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [rowData, setRowData] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+
+  //handle get attendee list
   const handleGetAttendantList = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/attendee`,
@@ -192,17 +102,43 @@ const AttendantList = () => {
           item?.username?.toLowerCase().includes(filterText.toLowerCase())
         );
         setFilteredItems(filteredItemsData);
+        setLoading(false);
       }
     } catch (error) {
       console.error("error while getting the attendant list:", error);
       toast.error(
         error?.response?.data?.message || "Failed to get attendant List"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
-
-
+  //handle delete attendee
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/attendee/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+      if (response?.status === 200) {
+        setDeleteLoading(false);
+        setDeleteId(null);
+        setReload(true);
+        handleGetAttendantList();
+        toast.success("Attendee deleted successfully");
+      }
+    } catch (error) {
+      console.error("error while deleting the attendant:", error);
+      toast.error(
+        error?.response?.data?.message || "Failed to delete attendant"
+      );
+    }
+  };
   const handleClear = () => {
     if (filterText) {
       setResetPaginationToggle(!resetPaginationToggle);
@@ -238,7 +174,13 @@ const AttendantList = () => {
               </button>
             </DialogTrigger>
             <DialogContent className="p-6 bg-white shadow-lg rounded-lg max-w-md">
-              <AddAttendee />
+              <AddAttendee
+                reload={reload}
+                setReload={setReload}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                data={rowData}
+              />
             </DialogContent>
           </Dialog>
         </div>
@@ -246,7 +188,62 @@ const AttendantList = () => {
     ),
     [filterText, resetPaginationToggle, openModal]
   );
-
+  const ActionButtons = ({ data }) => {
+    const navigate = useNavigate();
+    return (
+      <div className="flex gap-2 items-center py-3">
+        <Dialog>
+          <DialogTrigger>
+            <div className="cursor-pointer p-3 bg-[#dce4f9] text-[#2563eb] rounded-full">
+              <FiEye size={18} />
+            </div>
+          </DialogTrigger>
+          <DialogContent className="p-6 bg-white shadow-lg rounded-lg max-w-md">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <p>name:</p>
+              <p>{data?.username}</p>
+              <p>email:</p>
+              <p>{data?.email}</p>
+              <p>phone:</p>
+              <p>{data?.phone}</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+        <div
+          onClick={() => {
+            setOpenModal(!openModal);
+            setRowData(data);
+          }}
+          className="cursor-pointer p-3 bg-[#e3f4e9] text-[#16a34a] rounded-full"
+        >
+          <FaRegEdit size={18} />
+        </div>
+        {deleteLoading && deleteId === data?._id ? (
+          <button>
+            <ColorRing
+              visible={true}
+              height="30"
+              width="30"
+              ariaLabel="color-ring-loading"
+              wrapperStyle={{}}
+              wrapperClass="color-ring-wrapper"
+              colors={["#000", "#000", "#000", "#000", "#000"]}
+            />
+          </button>
+        ) : (
+          <div
+            onClick={() => {
+              setDeleteId(data?._id);
+              handleDelete(data?._id);
+            }}
+            className="cursor-pointer p-3 bg-[#fde4ea] text-[#dc2626] rounded-full"
+          >
+            <Trash2 size={18} />
+          </div>
+        )}
+      </div>
+    );
+  };
   const columns = [
     {
       name: "Attendant Name",
@@ -267,9 +264,14 @@ const AttendantList = () => {
       },
     },
     {
-      name: "Price",
+      name: "Email",
       sortable: true,
-      selector: (row) => row.price,
+      selector: (row) => row?.email,
+    },
+    {
+      name: "Phone",
+      sortable: true,
+      selector: (row) => row?.phone,
     },
     {
       name: "Status",
@@ -278,7 +280,7 @@ const AttendantList = () => {
     },
     {
       name: "Action",
-      cell: () => <ActionButtons />,
+      cell: (row) => <ActionButtons data={row} />,
     },
   ];
 
@@ -297,22 +299,36 @@ const AttendantList = () => {
 
   useEffect(() => {
     handleGetAttendantList();
-  }, []);
+  }, [reload]);
   return (
     <div className="w-full px-4 pb-8 ">
       <div className="bg-white w-full p-3 rounded-2xl shadow-xl">
         <div className="border rounded-2xl overflow-hidden shadow-sm p-3">
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            selectableRows
-            dense
-            // actions={exportActions}
-            subHeader
-            subHeaderComponent={subHeaderComponent}
-            paginationResetDefaultPage={resetPaginationToggle}
-          />
+          {loading ? (
+            <div className="w-full flex justify-center items-center h-[400px]">
+              <ColorRing
+                visible={true}
+                height="70"
+                width="70"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={["#000", "#000", "#000", "#000", "#000"]}
+              />
+            </div>
+          ) : (
+            <DataTable
+              columns={columns}
+              data={filteredItems}
+              pagination
+              selectableRows
+              dense
+              // actions={exportActions}
+              subHeader
+              subHeaderComponent={subHeaderComponent}
+              paginationResetDefaultPage={resetPaginationToggle}
+            />
+          )}
         </div>
       </div>
     </div>
