@@ -8,6 +8,7 @@ import { login } from "@/redux/reducers/authSlice";
 import Profile from "@/views/dashboard/profile";
 import AttendantList from "@/views/dashboard/attendantList";
 import EventList from "@/views/dashboard/eventList";
+import TaskTracker from "@/views/dashboard/taskTracker";
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const DashboardLayout = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/attendant-list" element={<AttendantList />} />
             <Route path="/event-list" element={<EventList />} />
+            <Route path="/task-tracker" element={<TaskTracker />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>

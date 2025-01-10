@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FiEye } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
@@ -6,6 +6,12 @@ import { Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
+import toast from "react-hot-toast";
+import axios from "axios";
+
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import AddAttendee from "@/components/addAttendee";
+
 const data = [
   {
     id: 1,
@@ -127,7 +133,7 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
     <input
       id="search"
       type="text"
-      placeholder="Filter by Order ID"
+      placeholder="Filter by attendee name"
       aria-label="Search Input"
       value={filterText}
       onChange={onFilter}
@@ -165,10 +171,37 @@ const AttendantList = () => {
   const navigate = useNavigate();
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [attendants, setAttendants] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [reload, setReload] = useState(false);
+  const handleGetAttendantList = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/attendee`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
 
-  const filteredItems = data.filter((item) =>
-    item?.medicineName?.toLowerCase().includes(filterText.toLowerCase())
-  );
+      if (response?.status === 200) {
+        setAttendants(response?.data?.data || []);
+        const filteredItemsData = response?.data?.data.filter((item) =>
+          item?.username?.toLowerCase().includes(filterText.toLowerCase())
+        );
+        setFilteredItems(filteredItemsData);
+      }
+    } catch (error) {
+      console.error("error while getting the attendant list:", error);
+      toast.error(
+        error?.response?.data?.message || "Failed to get attendant List"
+      );
+    }
+  };
+
+
 
   const handleClear = () => {
     if (filterText) {
@@ -193,34 +226,43 @@ const AttendantList = () => {
             <Upload className="text-gray-600 " size={20} />
             <p>Export</p>
           </button>
-          <button
-            onClick={() => navigate("/dashboard/billing")}
-            className="bg-blue-800 text-white rounded-xl px-6 hover:bg-transparent hover:border hover:border-blue-800 hover:text-blue-800"
+          <Dialog
+            open={openModal}
+            onOpenChange={setOpenModal}
+            className="h-[650px] overflow-y-scroll"
+            style={{ scrollbarWidth: "none" }}
           >
-            + Add
-          </button>
+            <DialogTrigger asChild>
+              <button className=" h-full bg-blue-800 text-white rounded-xl px-6 hover:bg-transparent hover:border hover:border-blue-800 hover:text-blue-800">
+                + Add
+              </button>
+            </DialogTrigger>
+            <DialogContent className="p-6 bg-white shadow-lg rounded-lg max-w-md">
+              <AddAttendee />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     ),
-    [filterText, resetPaginationToggle]
+    [filterText, resetPaginationToggle, openModal]
   );
 
   const columns = [
     {
       name: "Attendant Name",
       sortable: true,
-      selector: (row) => row.medicineName,
-      cell: (row) => <p>{row?.medicineName}</p>,
+      selector: (row) => row.username,
+      cell: (row) => <p>{row?.username}</p>,
     },
     {
       name: "Stock",
       sortable: true,
       selector: (row) => row.available,
       cell: (row) => {
-        const [checked,setChecked]=useState(row?.available)
-        const handleChecked=()=>{
-          setChecked(!checked)
-        }
+        const [checked, setChecked] = useState(row?.available);
+        const handleChecked = () => {
+          setChecked(!checked);
+        };
         return <Switch checked={checked} onCheckedChange={handleChecked} />;
       },
     },
@@ -252,6 +294,10 @@ const AttendantList = () => {
     ),
     []
   );
+
+  useEffect(() => {
+    handleGetAttendantList();
+  }, []);
   return (
     <div className="w-full px-4 pb-8 ">
       <div className="bg-white w-full p-3 rounded-2xl shadow-xl">
