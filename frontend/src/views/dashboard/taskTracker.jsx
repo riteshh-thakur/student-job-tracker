@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ProgressBar from "@/components/ProgressBar";
-import Spinner from "@/components/Spinner";
+import ProgressBar from "@/components/progressBar";
+import Spinner from "@/components/spinner";
 import toast from "react-hot-toast";
 
 const TaskTracker = () => {
