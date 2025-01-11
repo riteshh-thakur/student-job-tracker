@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FiEye } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
-import { Trash2, Upload } from "lucide-react";
+import { Mail, Phone, Trash2, Upload, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
@@ -12,23 +12,25 @@ import axios from "axios";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import AddAttendee from "@/components/addAttendee";
 import { ColorRing } from "react-loader-spinner";
+import { Badge } from "@/components/ui/badge";
+import { Usertag } from "@/components/tags";
 
-const StatusBadge = ({ status }) => {
-  const statusClasses = {
-    Pending: "text-yellow-800 bg-[#ffd08978]",
-    Completed: "text-green-900 bg-green-100",
-    Cancelled: "text-red-900 bg-red-100",
+const getBadgeColor = (username) => {
+  if (!username) return "gray"; // Default color for missing usernames
+
+  const firstLetter = username.charAt(0).toLowerCase();
+  const colors = {
+    a: "red",
+    b: "blue",
+    c: "green",
+    d: "yellow",
+    e: "purple",
+    f: "pink",
+    // Add more mappings as needed
+    default: "gray",
   };
 
-  return (
-    <div
-      className={`flex items-center justify-center py-2 px-4 w-[130px] rounded-full ${
-        statusClasses[status] || ""
-      }`}
-    >
-      {status}
-    </div>
-  );
+  return colors[firstLetter] || colors.default;
 };
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
@@ -98,7 +100,7 @@ const AttendantList = () => {
 
       if (response?.status === 200) {
         setAttendants(response?.data?.data || []);
-        const filteredItemsData = response?.data?.data.filter((item) =>
+        const filteredItemsData = response?.data?.data?.filter((item) =>
           item?.username?.toLowerCase().includes(filterText.toLowerCase())
         );
         setFilteredItems(filteredItemsData);
@@ -194,30 +196,60 @@ const AttendantList = () => {
       <div className="flex gap-2 items-center py-3">
         <Dialog>
           <DialogTrigger>
-            <div className="cursor-pointer p-3 bg-[#dce4f9] text-[#2563eb] rounded-full">
-              <FiEye size={18} />
+            <div className="cursor-pointer p-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full shadow-md hover:shadow-lg transition">
+              <FiEye size={20} />
             </div>
           </DialogTrigger>
-          <DialogContent className="p-6 bg-white shadow-lg rounded-lg max-w-md">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <p>name:</p>
-              <p>{data?.username}</p>
-              <p>email:</p>
-              <p>{data?.email}</p>
-              <p>phone:</p>
-              <p>{data?.phone}</p>
+          <DialogContent className="p-8 bg-white shadow-xl rounded-lg max-w-lg mx-auto space-y-6">
+            <div className="flex flex-col items-center space-y-4">
+              <h3 className="text-2xl font-semibold text-gray-800">
+                User Information
+              </h3>
+              <div className="w-full border-t border-gray-200 mt-4 pt-4">
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+                  <User className="text-blue-500" size={20} />
+                  <div className="flex-1 ml-4">
+                    <span className="font-medium text-gray-700">Name:</span>
+                    <div className="font-semibold text-gray-900">
+                      {data?.username}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+                  <Mail className="text-blue-500" size={20} />
+                  <div className="flex-1 ml-4">
+                    <span className="font-medium text-gray-700">Email:</span>
+                    <div className="font-semibold text-gray-900">
+                      {data?.email}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+                  <Phone className="text-blue-500" size={20} />
+                  <div className="flex-1 ml-4">
+                    <span className="font-medium text-gray-700">Phone:</span>
+                    <div className="font-semibold text-gray-900">
+                      {data?.phone}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Edit Button */}
         <div
           onClick={() => {
             setOpenModal(!openModal);
             setRowData(data);
           }}
-          className="cursor-pointer p-3 bg-[#e3f4e9] text-[#16a34a] rounded-full"
+          className="cursor-pointer p-3 bg-gradient-to-r from-green-100 to-green-200 text-green-700 rounded-full shadow-md hover:shadow-lg transition duration-200"
         >
-          <FaRegEdit size={18} />
+          <FaRegEdit size={20} />
         </div>
+
+        {/* Delete Button */}
         {deleteLoading && deleteId === data?._id ? (
           <button>
             <ColorRing
@@ -227,7 +259,7 @@ const AttendantList = () => {
               ariaLabel="color-ring-loading"
               wrapperStyle={{}}
               wrapperClass="color-ring-wrapper"
-              colors={["#000", "#000", "#000", "#000", "#000"]}
+              colors={["#16a34a", "#22c55e", "#16a34a", "#22c55e", "#16a34a"]}
             />
           </button>
         ) : (
@@ -236,9 +268,9 @@ const AttendantList = () => {
               setDeleteId(data?._id);
               handleDelete(data?._id);
             }}
-            className="cursor-pointer p-3 bg-[#fde4ea] text-[#dc2626] rounded-full"
+            className="cursor-pointer p-3 bg-gradient-to-r from-red-100 to-red-200 text-red-700 rounded-full shadow-md hover:shadow-lg transition duration-200"
           >
-            <Trash2 size={18} />
+            <Trash2 size={20} />
           </div>
         )}
       </div>
@@ -249,34 +281,56 @@ const AttendantList = () => {
       name: "Attendant Name",
       sortable: true,
       selector: (row) => row.username,
-      cell: (row) => <p>{row?.username}</p>,
-    },
-    {
-      name: "Stock",
-      sortable: true,
-      selector: (row) => row.available,
-      cell: (row) => {
-        const [checked, setChecked] = useState(row?.available);
-        const handleChecked = () => {
-          setChecked(!checked);
-        };
-        return <Switch checked={checked} onCheckedChange={handleChecked} />;
-      },
+      cell: (row) => (
+        <div className="flex items-center gap-2">
+          <Usertag name={row?.username} />
+        </div>
+      ),
     },
     {
       name: "Email",
       sortable: true,
       selector: (row) => row?.email,
+      cell: (row) => (
+        <p className="text-blue-500 underline">
+          {row?.email || <span className="text-gray-400 italic">No Email</span>}
+        </p>
+      ),
     },
     {
       name: "Phone",
       sortable: true,
       selector: (row) => row?.phone,
+      cell: (row) => (
+        <p className="text-gray-700">
+          {row?.phone || <span className="text-gray-400 italic">No Phone</span>}
+        </p>
+      ),
     },
     {
       name: "Status",
       sortable: true,
-      cell: (row) => <StatusBadge status={row.status} />,
+      selector: (row) => row?.available,
+      cell: (row) => {
+        const [checked, setChecked] = useState(row?.available);
+        const handleChecked = () => setChecked(!checked);
+
+        return (
+          <Switch
+            checked={checked}
+            onChange={handleChecked}
+            className={`${
+              checked ? "bg-green-500" : "bg-gray-300"
+            } relative inline-flex items-center h-6 rounded-full w-11`}
+          >
+            <span
+              className={`${
+                checked ? "translate-x-6" : "translate-x-1"
+              } inline-block w-4 h-4 transform bg-white rounded-full transition`}
+            />
+          </Switch>
+        );
+      },
     },
     {
       name: "Action",
