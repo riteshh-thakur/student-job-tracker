@@ -8,6 +8,7 @@ export const sidebarSlice = createSlice({
   },
   reducers: {
     toggleSidebar: (state) => {
+      console.log("isOpen",state.isOpen)
       state.isOpen = !state.isOpen;
     },
     closeSidebar: (state) => {
