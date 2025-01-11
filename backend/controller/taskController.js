@@ -3,7 +3,7 @@ const Event = require("../models/eventModel");
 
 const createTask = async (req, res) => {
   try {
-    const { name, deadline, assignedAttendee, eventId } = req.body;
+    const { name, deadline, assignedAttendee, eventId , description} = req.body;
 
     // Check if the event exists
     const event = await Event.findById(eventId);
@@ -17,6 +17,7 @@ const createTask = async (req, res) => {
       deadline,
       assignedAttendee,
       event: eventId,
+      description,
     });
 
     // Save task and add it to the event
@@ -24,7 +25,11 @@ const createTask = async (req, res) => {
     event.tasks = [...(event.tasks || []), savedTask._id];
     await event.save();
 
-    res.status(201).json(savedTask);
+    res.status(201).json({
+      success: true,
+      message:"successfully created task",
+      data: savedTask,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -49,12 +54,27 @@ const getTasksByEvent = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
+const getAllTask=async(req,res)=>{
+  try{
+    const tasks=await Task.find().populate("assignedAttendee").populate("event");
+    if(!tasks){
+      return res.status(404).json({message:"No task found"})
+    }
+    res.status(200).json({
+      success:true,
+      message:"successfully retrieved all tasks",
+      data:tasks
+    });
+  }catch(error){
+    return res.status(500).json({ message: error.message });
+  }
+}
 const updateTaskStatus = async (req, res) => {
   try {
     const { taskId } = req.params;
     const { status } = req.body;
 
+    console.log(status)
     // Validate status value
     if (!["Pending", "Completed"].includes(status)) {
       return res.status(400).json({ message: "Invalid status value" });
@@ -81,4 +101,5 @@ module.exports = {
   createTask,
   getTasksByEvent,
   updateTaskStatus,
+  getAllTask
 };

@@ -1,7 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { FiCalendar, FiClock, FiEye, FiInfo, FiWatch } from "react-icons/fi";
-import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaRegEdit } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaClock,
+  FaMapMarkerAlt,
+  FaRegEdit,
+} from "react-icons/fa";
 import { Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +38,7 @@ const StatusBadge = ({ status }) => {
 };
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
-  <div className="flex gap-2 items-center">
+  <div className="md:flex hidden gap-2 items-center">
     <input
       id="search"
       type="text"
@@ -154,7 +159,7 @@ const AttendantList = () => {
 
         <div className="flex gap-[10px]">
           <button
-            onClick={() => downloadCSV(data)}
+            onClick={() => downloadCSV(events)}
             className="text-base flex items-center px-6 py-2 gap-[5px] border border-blue-600 text-gray-600 rounded-lg"
           >
             <Upload className="text-gray-600 " size={20} />

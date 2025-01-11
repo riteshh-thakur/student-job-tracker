@@ -34,7 +34,7 @@ const getBadgeColor = (username) => {
 };
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
-  <div className="flex gap-2 items-center">
+  <div className="md:flex hidden gap-2 items-center">
     <input
       id="search"
       type="text"
@@ -158,7 +158,7 @@ const AttendantList = () => {
 
         <div className="flex gap-[10px]">
           <button
-            onClick={() => downloadCSV(data)}
+            onClick={() => downloadCSV(attendants)}
             className="text-base flex items-center px-6 py-2 gap-[5px] border border-blue-600 text-gray-600 rounded-lg"
           >
             <Upload className="text-gray-600 " size={20} />

@@ -22,4 +22,16 @@ const Usertag = ({ name, img }) => {
   );
 };
 
-export {Usertag}
+const Tag = ({ children, color, textColor, classNames, style }) => {
+
+  return (
+    <div
+      className={` ${classNames}  `}
+     
+    >
+      {children}
+    </div>
+  );
+};
+
+export {Usertag,Tag}

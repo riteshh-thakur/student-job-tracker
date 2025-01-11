@@ -15,6 +15,7 @@ const {
   createTask,
   getTasksByEvent,
   updateTaskStatus,
+  getAllTask,
 } = require("../controller/taskController");
 const {
   getAllAttendees,
@@ -44,7 +45,8 @@ Router.delete("/events/:id", verifyToken, deleteEvent);
 //task routes
 // Create a new task
 Router.post("/task", verifyToken, createTask);
-
+//get all task
+Router.get("/task",verifyToken,getAllTask);
 // Get tasks by event ID
 Router.get("/task/event/:eventId", verifyToken, getTasksByEvent);
 
