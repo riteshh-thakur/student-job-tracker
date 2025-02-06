@@ -39,7 +39,7 @@ const Navbar = () => {
             />
           </div>
           <div className="w-full flex justify-end items-center gap-3">
-            <Link
+            {/* <Link
               to="/notification"
               className="relative p-2 rounded-sm bg-neutral-100 group"
             >
@@ -56,7 +56,7 @@ const Navbar = () => {
               <div className="absolute rounded-full bg-red-100 text-red-500 text-[10px] font-bold w-4 h-4 flex justify-center items-center -top-1 -right-1">
                 5
               </div>
-            </Link>
+            </Link> */}
             <div
               onClick={() => navigate("/dashboard/profile")}
               className="flex items-center gap-3"
@@ -65,8 +65,8 @@ const Navbar = () => {
                 <FaUser className="text-blue-600" />
               </div>
               <div className="hidden md:flex flex-col items-start justify-start">
-                <p className="text-sm font-semibold">John Doe</p>
-                <p className="text-xs text-neutral-500">Admin</p>
+                {/* <p className="text-sm font-semibold">John Doe</p> */}
+                <p className="text-sm font-semibold">Admin</p>
               </div>
             </div>
           </div>

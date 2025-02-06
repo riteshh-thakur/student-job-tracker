@@ -103,7 +103,7 @@ const Sidebar = () => {
             </div>
           ))}
       </div>
-      <div className="w-full ">
+      {/* <div className="w-full ">
         <div className="w-full bg-blue-700 rounded-2xl p-5">
             <h1 className="text-white text-xl font-semibold my-1">Support 24/7</h1>
             <p className=" text-white">Contacts us anytime</p>
@@ -114,7 +114,7 @@ const Sidebar = () => {
           <LuLogOut className="text-xl text-red-400"/>
           <p className="text-base text-red-400">Logout</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
