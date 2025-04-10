@@ -1,145 +1,101 @@
-# Event Management
+# 🧑‍🎓 Student Job Tracker
+A full-stack application to help students track job applications, internships, and interview progress. Built with a modern React.js (Vite) frontend and a robust Node.js + Express backend, using MongoDB as the database. This platform helps students stay organized with a clean dashboard and dynamic tracking tools.
 
-A comprehensive event management system with a React.js (Vite) frontend and a Node.js + Express backend, using MongoDB as the database. This project enables users to manage tasks and events efficiently with a modern dashboard interface.
+# 🚀 Features
+🎨 Frontend
+Built with React.js and Vite for fast development.
 
----
+Clean, responsive dashboard to view and manage job applications.
 
-## **Features**
+Features include sorting by date, filtering by company or role, and status updates.
 
-### **Frontend**
-- Built with **React.js** (Vite for fast development).
-- Modern and responsive user interface.
-- Dashboard for managing tasks and tracking events.
-- Integration with backend APIs for dynamic data handling.
+Integrated with backend APIs for real-time data sync.
 
-### **Backend**
-- Developed using **Node.js** and **Express.js**.
-- RESTful API for managing tasks and events.
-- Secure and scalable with **MongoDB** as the database.
-- Authentication and data validation implemented.
+🛠️ Backend
+Developed using Node.js and Express.js.
 
----
+RESTful API to handle job entries, updates, and deletion.
 
-## **Live Links**
+Uses MongoDB for data persistence and scalability.
 
-- **Live Preview:** [Event Management Dashboard](https://event-management-1-1nyc.onrender.com/dashboard)  
-- **API Base URL:** [Event Management API](https://event-management-jmt5.onrender.com)  
+Includes authentication and data validation for secure access.
 
----
+# 🗂️ Project Structure
 
-## **Project Structure**
-
-```
-Event-Management/
+Student-Job-Tracker/
 ├── frontend/                # Frontend codebase
-│   ├── src/                 # React components, hooks, pages
+│   ├── src/                 # React components, pages, hooks
 │   ├── public/              # Static assets
-│   └── package.json         # Frontend dependencies and scripts
+│   └── package.json         # Frontend dependencies
 │
 ├── backend/                 # Backend codebase
-│   ├── routes/              # API routes
-│   ├── controllers/         # API controllers
-│   ├── models/              # MongoDB models
-│   ├── utils/               # Utility functions
-│   └── package.json         # Backend dependencies and scripts
+│   ├── routes/              # Express routes for jobs and auth
+│   ├── controllers/         # API logic for job handling
+│   ├── models/              # MongoDB schemas (Job, User)
+│   ├── utils/               # Utility functions and middleware
+│   └── package.json         # Backend dependencies
 │
-├── .gitignore               # Git ignored files
+├── .gitignore               # Ignored files
 ├── README.md                # Project documentation
+⚙️ Getting Started
+📦 Prerequisites
+Node.js and npm (or yarn) installed
 
-```
+A running MongoDB instance (local or cloud)
 
----
-
-## **Getting Started**
-
-### **Prerequisites**
-- **Node.js** and **npm/yarn** installed.
-- **MongoDB** instance running locally or in the cloud.
-
-### **Setup**
-
-1. **Clone the Repository:**  
-   ```bash
-   git clone https://github.com/riteshh-thakur/Event-Management.git
-   cd Event-management
-   ```
-
-2. **Install Dependencies:**  
-   - For the frontend:  
-     ```bash
-     cd frontend
-     npm install
-     ```  
-   - For the backend:  
-     ```bash
-     cd backend
-     npm install
-     ```
-
-3. **Configure Environment Variables:**  
-   - Create a `.env` file in the `backend` folder with the following:  
-     ```env
-     MONGO_URI=<your-mongodb-connection-string>
-     PORT=5000
-     ```  
-
-4. **Run the Application:**  
-   - Start the backend server:  
-     ```bash
-     cd backend
-     npm start
-     ```  
-   - Start the frontend development server:  
-     ```bash
-     cd frontend
-     npm run dev
-     ```  
-
-5. **Access the Application:**  
-   - Frontend: `http://localhost:5173`  
-   - Backend API: `http://localhost:5000`  
-
----
+# 🧪 Setup Steps
+Clone the Repository:
 
 
+git clone https://github.com/riteshh-thakur/student-job-tracker.git
+cd student-job-tracker
+Install Dependencies:
 
----
-
-
----
-
-## **Technologies Used**
-
-- **Frontend:** React.js (Vite), Tailwind CSS  
-- **Backend:** Node.js, Express.js  
-- **Database:** MongoDB  
-
----
-
-## **Contributing**
-
-1. Fork the repository.  
-2. Create a feature branch:  
-   ```bash
-   git checkout -b feature-name
-   ```  
-3. Commit your changes:  
-   ```bash
-   git commit -m "Add feature"
-   ```  
-4. Push to the branch:  
-   ```bash
-   git push origin feature-name
-   ```  
-5. Create a pull request.  
-
----
+# Frontend:
 
 
----
+cd frontend
+npm install
+Backend:
 
-## **Contact**
 
-For any queries or feedback, feel free to reach out:  
-- **GitHub Profile:** [Ritesh Thakur](https://github.com/riteshh-thakur)  
-- **Email:** thakurritesh8219@gmail.com  
+cd backend
+npm install
+Environment Configuration: In backend/, create a .env file:
+
+env
+
+MONGO_URI=<your-mongodb-uri>
+PORT=5000
+Run the App:
+
+Start backend:
+
+
+cd backend
+npm start
+Start frontend:
+
+
+cd frontend
+npm run dev
+View in Browser:
+
+Frontend: http://localhost:5173
+
+Backend API: http://localhost:5000
+
+# 🛠 Tech Stack
+Frontend: React.js (Vite), Tailwind CSS
+
+Backend: Node.js, Express.js
+
+Database: MongoDB
+
+
+📬 Contact
+For queries or suggestions, feel free to reach out:
+
+🔗 GitHub: Ritesh Thakur
+
+📧 Email: thakurritesh8219@gmail.com
