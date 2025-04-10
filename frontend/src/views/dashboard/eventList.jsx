@@ -42,7 +42,7 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
     <input
       id="search"
       type="text"
-      placeholder="Filter by event name"
+      placeholder="Filter by Company name"
       aria-label="Search Input"
       value={filterText}
       onChange={onFilter}
@@ -205,10 +205,10 @@ const AttendantList = () => {
             {/* Header */}
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-gray-800">
-                Event Details
+                Application Details
               </h2>
               <p className="text-sm text-gray-500">
-                View all the information about this event
+                View all the information about this application
               </p>
             </div>
 
@@ -220,7 +220,7 @@ const AttendantList = () => {
                   <FiCalendar size={20} />
                 </span>
                 <div className="ml-4">
-                  <p className="text-sm text-gray-500 font-medium">Name</p>
+                  <p className="text-sm text-gray-500 font-medium"> Company Name</p>
                   <p className="text-lg font-semibold text-gray-800">
                     {data?.name}
                   </p>
@@ -254,18 +254,18 @@ const AttendantList = () => {
               </div>
 
               {/* Time */}
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <span className="p-2 bg-purple-100 rounded-full text-purple-600">
                   <FiWatch size={20} />
                 </span>
                 <div className="ml-4">
-                  <p className="text-sm text-gray-500 font-medium">Time</p>
-                  <p className="text-gray-700">{data?.time}</p>
+                  <p className="text-sm text-gray-500 font-medium"> Role</p>
+                  <p className="text-gray-700">{data?.role}</p>
                 </div>
-              </div>
+              </div> */}
 
               {/* Attendees */}
-              <div>
+              {/* <div>
                 <p className="text-sm text-gray-500 font-medium mb-3">
                   Attendees
                 </p>
@@ -288,7 +288,7 @@ const AttendantList = () => {
                     </p>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </DialogContent>
         </Dialog>
@@ -333,7 +333,7 @@ const AttendantList = () => {
   };
   const columns = [
     {
-      name: "Event Name",
+      name: "Company Name",
       sortable: true,
       selector: (row) => row.name,
       cell: (row) => (
@@ -384,32 +384,55 @@ const AttendantList = () => {
       ),
     },
     {
-      name: "Time",
+      name: "Role",
       sortable: true,
-      selector: (row) => row?.time,
+      selector: (row) => row?.role,
       cell: (row) => (
-        <p className="text-orange-500 flex items-center gap-2">
-          <FaClock size={14} />
-          {row?.time ? (
-            row?.time
-          ) : (
-            <span className="text-gray-400 italic">No Time</span>
+        <p className="text-gray-700">
+          {row?.role || (
+            <span className="text-gray-400 italic">No Role</span>
           )}
         </p>
       ),
     },
+    {
+      name: "Status",
+      sortable: true,
+      selector: (row) => row?.status,
+      cell: (row) => (
+        <p className="text-gray-700">
+          {row?.status || <span className="text-gray-400 italic">No Status</span>}
+        </p>
+      ),
+    },
+    
     // {
-    //   name: "Status",
+    //   name: "Time",
     //   sortable: true,
-    //   selector: (row) => row.available,
-    //   cell: (row) => {
-    //     const [checked, setChecked] = useState(row?.available);
-    //     const handleChecked = () => {
-    //       setChecked(!checked);
-    //     };
-    //     return <Switch checked={checked} onCheckedChange={handleChecked} />;
-    //   },
+    //   selector: (row) => row?.time,
+    //   cell: (row) => (
+    //     <p className="text-orange-500 flex items-center gap-2">
+    //       <FaClock size={14} />
+    //       {row?.time ? (
+    //         row?.time
+    //       ) : (
+    //         <span className="text-gray-400 italic">No Time</span>
+    //       )}
+    //     </p>
+    //   ),
     // },
+    {
+      name: "Active/Inactive",
+      sortable: true,
+      selector: (row) => row.available,
+      cell: (row) => {
+        const [checked, setChecked] = useState(row?.available);
+        const handleChecked = () => {
+          setChecked(!checked);
+        };
+        return <Switch checked={checked} onCheckedChange={handleChecked} />;
+      },
+    },
     {
       name: "Action",
       cell: (row) => <ActionButtons data={row} />,
@@ -468,3 +491,6 @@ const AttendantList = () => {
 };
 
 export default AttendantList;
+
+
+

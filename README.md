@@ -22,8 +22,8 @@ A comprehensive event management system with a React.js (Vite) frontend and a No
 
 ## **Live Links**
 
-- **Live Preview:** [Event Management Dashboard](https://event-management-one-mu.vercel.app/dashboard/task-tracker)  
-- **API Base URL:** [Event Management API](https://event-management-api-alpha.vercel.app)  
+- **Live Preview:** [Event Management Dashboard](https://event-management-1-1nyc.onrender.com/dashboard)  
+- **API Base URL:** [Event Management API](https://event-management-jmt5.onrender.com)  
 
 ---
 
@@ -45,7 +45,7 @@ Event-Management/
 │
 ├── .gitignore               # Git ignored files
 ├── README.md                # Project documentation
-└── LICENSE                  # Project license
+
 ```
 
 ---
@@ -60,7 +60,7 @@ Event-Management/
 
 1. **Clone the Repository:**  
    ```bash
-   git clone https://github.com/Hibbanur-Rahman/Event-management.git
+   git clone https://github.com/riteshh-thakur/Event-Management.git
    cd Event-management
    ```
 
@@ -101,21 +101,10 @@ Event-Management/
 
 ---
 
-## **API Endpoints**
 
-| Method | Endpoint             | Description                     |  
-|--------|----------------------|---------------------------------|  
-| GET    | `/api/tasks`         | Get all tasks                  |  
-| POST   | `/api/tasks`         | Create a new task              |  
-| PUT    | `/api/tasks/:id`     | Update a task by ID            |  
-| DELETE | `/api/tasks/:id`     | Delete a task by ID            |  
 
 ---
 
-## **Demo**
-
-### **Video Demonstration**  
-- Watch the walkthrough: [Loom Video](https://www.loom.com/share/6d19deeae12a43fe9b578129dbaf7ee6)  
 
 ---
 
@@ -146,14 +135,11 @@ Event-Management/
 
 ---
 
-## **License**
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
 
 ---
 
 ## **Contact**
 
 For any queries or feedback, feel free to reach out:  
-- **GitHub Profile:** [Hibbanur Rahman](https://github.com/Hibbanur-Rahman)  
-- **Email:** hibbanrahmanhyt@gmail.com  
+- **GitHub Profile:** [Ritesh Thakur](https://github.com/riteshh-thakur)  
+- **Email:** thakurritesh8219@gmail.com  

@@ -17,7 +17,7 @@ const Navbar = () => {
       <div className="flex items-center gap-3">
         <div className="w-48 lg:w-64 flex justify-between items-center">
           <Link to="/" className="hidden sm:flex items-center gap-2">
-            Event Management
+            Student Job Tracker
           </Link>
           <button
             className="bg-neutral-100 p-2"

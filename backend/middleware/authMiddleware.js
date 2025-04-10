@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-// const secretKey = 'Rahman@1234';
+
 const httpStatusCode = require("../constants/httpStatusCode");
 
 async function getToken(user) {

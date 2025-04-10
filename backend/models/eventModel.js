@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { removeListener } = require("./userModel");
 
 const eventSchema = new mongoose.Schema({
   name: {
@@ -17,7 +18,11 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  time:{
+  role:{
+    type:String,
+    required:true
+  },
+  status:{
     type:String,
     required:true
   },

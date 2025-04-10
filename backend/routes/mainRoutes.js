@@ -34,16 +34,16 @@ Router.get("/view-all-user", verifyToken, ViewAllUser);
 Router.get("/attendee", verifyToken, getAllAttendees);
 Router.post("/attendee", verifyToken, addAttendee);
 Router.delete("/attendee/:attendeeId", verifyToken, deleteAttendee);
-Router.post("/attendee/assignEvent", verifyToken, assignAttendeeToEvent);
+// /;
 
 //event routes
-Router.post("/events", verifyToken, createEvent);
-Router.get("/events", verifyToken, getAllEvents);
-Router.put("/events/:id", verifyToken, updateEvent);
-Router.delete("/events/:id", verifyToken, deleteEvent);
+Router.post("/events", createEvent);
+Router.get("/events", getAllEvents);
+Router.put("/events/:id", updateEvent);
+Router.delete("/events/:id",  deleteEvent);
 
 //task routes
-// Create a new task
+//Create a new task
 Router.post("/task", verifyToken, createTask);
 //get all task
 Router.get("/task",verifyToken,getAllTask);

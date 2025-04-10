@@ -38,7 +38,7 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
     <input
       id="search"
       type="text"
-      placeholder="Filter by attendee name"
+      placeholder="Filter by Company name"
       aria-label="Search Input"
       value={filterText}
       onChange={onFilter}
@@ -278,7 +278,7 @@ const AttendantList = () => {
   };
   const columns = [
     {
-      name: "Attendant Name",
+      name: "Company Name",
       sortable: true,
       selector: (row) => row.username,
       cell: (row) => (
@@ -288,7 +288,7 @@ const AttendantList = () => {
       ),
     },
     {
-      name: "Email",
+      name: "Role",
       sortable: true,
       selector: (row) => row?.email,
       cell: (row) => (
@@ -298,17 +298,27 @@ const AttendantList = () => {
       ),
     },
     {
-      name: "Phone",
+      name: "Date of Application",
       sortable: true,
       selector: (row) => row?.phone,
       cell: (row) => (
         <p className="text-gray-700">
-          {row?.phone || <span className="text-gray-400 italic">No Phone</span>}
+          {row?.phone || <span className="text-gray-400 italic">No Date</span>}
         </p>
       ),
     },
     {
       name: "Status",
+      sortable: true,
+      selector: (row) => row?.phone,
+      cell: (row) => (
+        <p className="text-gray-700">
+          {row?.phone || <span className="text-gray-400 italic">No Status</span>}
+        </p>
+      ),
+    },
+    {
+      name: "Active/Inactive",
       sortable: true,
       selector: (row) => row?.available,
       cell: (row) => {

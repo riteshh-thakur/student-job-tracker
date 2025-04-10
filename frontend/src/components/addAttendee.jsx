@@ -62,7 +62,7 @@ const AddAttendee = ({ data, reload, setReload, openModal, setOpenModal }) => {
   };
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Add Attendee</h2>
+      <h2 className="text-lg font-semibold mb-4">Add Application</h2>
       {error && <p className="text-red-600 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {/* Name Field */}
@@ -71,7 +71,7 @@ const AddAttendee = ({ data, reload, setReload, openModal, setOpenModal }) => {
             htmlFor="name"
             className="block text-sm font-medium text-gray-700"
           >
-            Name
+            Comapny Name
           </label>
           <input
             type="text"
@@ -90,7 +90,7 @@ const AddAttendee = ({ data, reload, setReload, openModal, setOpenModal }) => {
             htmlFor="email"
             className="block text-sm font-medium text-gray-700"
           >
-            Email
+            Role
           </label>
           <input
             type="email"
@@ -109,7 +109,25 @@ const AddAttendee = ({ data, reload, setReload, openModal, setOpenModal }) => {
             htmlFor="phone"
             className="block text-sm font-medium text-gray-700"
           >
-            phone
+            Date of Application
+          </label>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="mt-1 p-3 border block w-full rounded-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Enter phone number"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Status
           </label>
           <input
             type="text"

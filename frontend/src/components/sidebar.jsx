@@ -27,24 +27,24 @@ const Sidebar = () => {
       icon: LuLayoutDashboard,
       roles: ["admin", "user"],
     },
+    // {
+    //   label: "Job Application",
+    //   path: "/dashboard/attendant-list",
+    //   icon: LuNotebookPen,
+    //   roles: ["admin"],
+    // },
     {
-      label: "Attendant List",
-      path: "/dashboard/attendant-list",
-      icon: LuNotebookPen,
-      roles: ["admin"],
-    },
-    {
-      label: "Event List",
+      label: "Job Applications",
       path: "/dashboard/event-list",
       icon: LuCalendarRange,
       roles: ["admin"],
     },
-    {
-      label: "Tasks Tracker",
-      path: "/dashboard/task-tracker",
-      icon: GiMedicines,
-      roles: ["admin"],
-    },
+    // {
+    //   label: "View Application",
+    //   path: "/dashboard/task-tracker",
+    //   icon: GiMedicines,
+    //   roles: ["admin"],
+    // },
 
     {
       label: "Profile",
@@ -103,18 +103,7 @@ const Sidebar = () => {
             </div>
           ))}
       </div>
-      {/* <div className="w-full ">
-        <div className="w-full bg-blue-700 rounded-2xl p-5">
-            <h1 className="text-white text-xl font-semibold my-1">Support 24/7</h1>
-            <p className=" text-white">Contacts us anytime</p>
-            <button className="text-primary bg-white rounded-lg px-5 my-2 py-1 relative z-[3]">Start</button>
-            <img src={sidebarSupportImg} alt="" className="h-[130px] w-[150px] relative z-[0] right-[-40px] mt-[-50px]" />
-        </div>
-        <div onClick={handleLogout} className="flex gap-[10px] items-center my-4 px-2 cursor-pointer">
-          <LuLogOut className="text-xl text-red-400"/>
-          <p className="text-base text-red-400">Logout</p>
-        </div>
-      </div> */}
+     
     </div>
   );
 };

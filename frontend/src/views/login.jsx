@@ -49,16 +49,46 @@ const Login = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("access_token")) {
+  //     navigate("/dashboard");
+  //   }
+  // }, 
+  // []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("access_token");
+  //   if (token) {
+  //     // Verify token validity if needed, then navigate
+  //     navigate("/dashboard");
+  //   }
+  // }, []);
   useEffect(() => {
-    if (localStorage.getItem("access_token")) {
-      navigate("/dashboard");
-    }
+    const checkAuth = async () => {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        try {
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/verify`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+  
+          if (response.status === 200) {
+            navigate("/dashboard");
+          }
+        } catch (error) {
+          localStorage.removeItem("access_token"); // Remove invalid token
+        }
+      }
+    };
+  
+    checkAuth();
   }, []);
+  
+  
   return (
     <div className="w-full h-[100vh] overflow-x-hidden overflow-y-scroll bg-[#f7f7f9] flex  justify-center items-center" style={{scrollbarWidth:'none'}}>
       <div className="relative z-[10] md:w-3/12 w-11/12 rounded-2xl bg-white shadow-lg  flex flex-col justify-center items-center  p-5">
         <h1 className="text-3xl font-semibold w-full text-[#424242] block ">
-          Welcome to Eventize! 👋🏻
+          Welcome to Student Job Tracker! 👋🏻
         </h1>
         <p className="w-full text-gray-500">
           Please sign-in to your account and start the adventure
@@ -102,9 +132,9 @@ const Login = () => {
               />
             )}
           </div>
-          <p className="w-full text-right font-semibold cursor-pointer text-[#616161] hover:text-[#92613A]">
+          {/* <p className="w-full text-right font-semibold cursor-pointer text-[#616161] hover:text-[#92613A]">
             Forgot Password?
-          </p>
+          </p> */}
           {loader ? (
             <button
               disabled
@@ -148,3 +178,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
